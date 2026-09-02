@@ -23,7 +23,7 @@ export async function approveJob(formData: FormData) {
 
   const { data, error } = await supabase
     .from("jobs")
-    .update({ status: "approved", rejection_reason: null })
+    .update({ status: "approved" as const, rejection_reason: null })
     .eq("id", jobId)
     .select("id")
     .maybeSingle();
@@ -43,7 +43,10 @@ export async function rejectJob(formData: FormData) {
 
   const { data, error } = await supabase
     .from("jobs")
-    .update({ status: "rejected", rejection_reason: reason || "No reason given." })
+    .update({
+  status: "rejected" as const,
+  rejection_reason: reason || "No reason given.",
+})
     .eq("id", jobId)
     .select("id")
     .maybeSingle();
